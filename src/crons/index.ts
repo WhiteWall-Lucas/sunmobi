@@ -7,7 +7,7 @@ import { getDateThreeDaysAgo } from '../utils/getDateThreeDaysAgo'
 import { formatDateToDDMMYYYY } from '../utils/formatDateToDDMMYYYY'
 import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 
-const webhookUrl = 'http://localhost:8080/message/webhook'
+const webhookUrl = 'https://disparos-boleto-api-node-k42o4.ondigitalocean.app/message/webhook'
 
 export const initializeCrons = () => {
     cron.schedule('0 8 * * *', async () => {
