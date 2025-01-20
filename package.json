@@ -9,7 +9,9 @@
         "deploy": "firebase deploy",
         "logs": "firebase functions:log",
         "lint": "biome check --write --unsafe ./src",
-        "lint:nofix": "biome ci ./src"
+        "lint:nofix": "biome ci ./src",
+        "production": "node ./build/index.js",
+        "postinstall": "tsc"
     },
     "main": "lib/index.js",
     "engines": {
