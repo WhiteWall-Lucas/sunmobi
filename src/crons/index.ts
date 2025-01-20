@@ -56,7 +56,7 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('* * * * *', async () => {
+    cron.schedule('0 8 * * *', async () => {
         try {
             console.log('Executando cron para emissão de faturas do dia...')
             const customers = await fetchTodayChargesCustomers()
