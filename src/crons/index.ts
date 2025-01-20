@@ -1,13 +1,13 @@
 import cron from 'node-cron'
 import axios from 'axios'
-import { fetchExpiredChargesCustomers } from '../services/fetchExpiredChargesCustomers'
-import { fetchExpiringChargesCustomers } from '../services/fetchExpiringChargesCustomers'
-import { fetchTodayChargesCustomers } from '../services/fetchTodayChargesCustomers'
+// import { fetchExpiredChargesLogic } from '../controller/expiredCharges'
+// import { fetchExpiringChargesLogic } from '../controller/expiringCharges'
+// import { fetchTodayChargesCustomers } from '../services/fetchTodayChargesCustomers'
 import { getDateThreeDaysAgo } from '../utils/getDateThreeDaysAgo'
 import { formatDateToDDMMYYYY } from '../utils/formatDateToDDMMYYYY'
 import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 
-const webhookUrl = 'http://localhost:4001/message/webhook'
+const webhookUrl = 'http://localhost:8080/message/webhook'
 
 export const initializeCrons = () => {
     cron.schedule('0 8 * * *', async () => {
@@ -15,7 +15,14 @@ export const initializeCrons = () => {
             console.log('Executando cron para cobranças expiradas...')
             let expiredDate = getDateThreeDaysAgo()
             expiredDate = formatDateToDDMMYYYY(expiredDate)
-            const customers = await fetchExpiredChargesCustomers()
+            // const customers = await fetchExpiredChargesCustomers()
+            const customers = [
+                {
+                    name: 'Lucas',
+                    phoneNumber: '5517991730681',
+                    template: 'tres_dias_depois_do_vencimento_do_boleto',
+                },
+            ]
             for (const customer of customers) {
                 const postBody = {
                     phoneNumber: customer.phoneNumber,
@@ -38,7 +45,14 @@ export const initializeCrons = () => {
             console.log('Executando cron para cobranças próximas do vencimento...')
             let expiringDate = getDateInThreeDays()
             expiringDate = formatDateToDDMMYYYY(expiringDate)
-            const customers = await fetchExpiringChargesCustomers()
+            // const customers = await fetchExpiringChargesCustomers()
+            const customers = [
+                {
+                    name: 'Lucas',
+                    phoneNumber: '5517991730681',
+                    template: 'tres_dias_antes_do_vencimento_do_boleto',
+                },
+            ]
             for (const customer of customers) {
                 const postBody = {
                     phoneNumber: customer.phoneNumber,
@@ -59,7 +73,14 @@ export const initializeCrons = () => {
     cron.schedule('0 8 * * *', async () => {
         try {
             console.log('Executando cron para emissão de faturas do dia...')
-            const customers = await fetchTodayChargesCustomers()
+            // const customers = await fetchTodayChargesCustomers()
+            const customers = [
+                {
+                    name: 'Lucas',
+                    phoneNumber: '5517991730681',
+                    template: 'dia_da_emissao_da_fatura',
+                },
+            ]
             for (const customer of customers) {
                 const postBody = {
                     phoneNumber: customer.phoneNumber,

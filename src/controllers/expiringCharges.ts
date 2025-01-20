@@ -1,13 +1,23 @@
-import axios from 'axios'
-import api from '../api'
-import { getTodayDate } from '../utils/getTodayDate'
-import { message } from '../config.json'
-import type { FilteredCustomer } from './types/FilteredCustomers'
+import { Router } from 'express'
 import type { Charge } from './types/Charge'
+import api from '../api'
+import type { FilteredCustomer } from './types/FilteredCustomers'
 import type { Customer } from './types/Customer'
+import { message } from '../config.json'
+import axios from 'axios'
+import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 
-export const fetchTodayChargesCustomers = async (): Promise<FilteredCustomer[]> => {
-    const todayDate = getTodayDate()
+export default Router().get('/', async (_req, res) => {
+    try {
+        const customers = await fetchExpiringChargesLogic()
+        res.status(200).json(customers)
+    } catch (error) {
+        res.status(500).json({ error: (error as Error).message })
+    }
+})
+
+export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> => {
+    const expiringDate = getDateInThreeDays()
     const perPage = 50
     let page = 1
     const filteredCustomers: FilteredCustomer[] = []
@@ -17,7 +27,7 @@ export const fetchTodayChargesCustomers = async (): Promise<FilteredCustomer[]> 
         let processedRecords = 0
 
         do {
-            const query = `per_page=${perPage}&page=${page}&query=created_at%3D${todayDate}`
+            const query = `per_page=${perPage}&page=${page}&query=due_at%3D${expiringDate}%20AND%20status%3Dpending`
 
             const response = await api.get<{ charges: Charge[] }>(`/charges?${query}`, {
                 headers: {
@@ -47,7 +57,7 @@ export const fetchTodayChargesCustomers = async (): Promise<FilteredCustomer[]> 
                     filteredCustomers.push({
                         name: customer.name,
                         phoneNumber: mobilePhone ? mobilePhone.number : null,
-                        template: message.dia_da_emissao_da_fatura.templateName,
+                        template: message.tres_dias_antes_do_vencimento_do_boleto.templateName,
                     })
                 } catch (error) {
                     if (axios.isAxiosError(error)) {

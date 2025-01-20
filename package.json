@@ -10,7 +10,7 @@
         "logs": "firebase functions:log",
         "lint": "biome check --write --unsafe ./src",
         "lint:nofix": "biome ci ./src",
-        "production": "node ./build/index.js",
+        "production": "node ./build/index.ts",
         "postinstall": "tsc"
     },
     "main": "lib/index.js",

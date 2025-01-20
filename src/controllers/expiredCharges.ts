@@ -1,12 +1,22 @@
-import axios from 'axios'
+import { Router } from 'express'
+import type { Charge } from './types/Charge'
 import api from '../api'
 import { getDateThreeDaysAgo } from '../utils/getDateThreeDaysAgo'
-import { message } from '../config.json'
 import type { FilteredCustomer } from './types/FilteredCustomers'
-import type { Charge } from './types/Charge'
 import type { Customer } from './types/Customer'
+import { message } from '../config.json'
+import axios from 'axios'
 
-export const fetchExpiredChargesCustomers = async (): Promise<FilteredCustomer[]> => {
+export default Router().get('/', async (_req, res) => {
+    try {
+        const customers = await fetchExpiredChargesLogic()
+        res.status(200).json(customers)
+    } catch (error) {
+        res.status(500).json({ error: (error as Error).message })
+    }
+})
+
+export const fetchExpiredChargesLogic = async (): Promise<FilteredCustomer[]> => {
     const expiredDate = getDateThreeDaysAgo()
     const perPage = 50
     let page = 1

@@ -2,11 +2,17 @@ import express from 'express'
 import { errorHandler } from './middlewares/error'
 import message from './controllers/message'
 import { initializeCrons } from './crons'
+import expiredCharges from './controllers/expiredCharges'
+import expiringCharges from './controllers/expiringCharges'
+import todayCharges from './controllers/todayCharges'
 
-const PORT = process.env.PORT || 4001
+const PORT = process.env.PORT || 8080
 
 const app = express()
     .use(express.json())
+    .use('/expiredCharges', expiredCharges)
+    .use('/expiringCharges', expiringCharges)
+    .use('/todayCharges', todayCharges)
     .use('/message', message)
     .use((_, res) => res.status(404).send('Not Found'))
     .use(errorHandler)
