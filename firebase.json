@@ -1,0 +1,26 @@
+{
+    "functions": {
+        "runtime": "nodejs22",
+        "source": ".",
+        "predeploy": "npm run build",
+        "project": "default",
+        "codebase": "sun-mobi"
+    },
+    "hosting": {
+        "site": "sun-mobi",
+        "public": "lib",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "function": "server",
+                "region": "southamerica-east1-a",
+                "pintag": true
+            }
+        ]
+    }
+}

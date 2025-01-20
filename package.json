@@ -1,0 +1,36 @@
+{
+    "name": "sun-mobi",
+    "scripts": {
+        "build": "tsc",
+        "killports": "kill-port 3000 3001 3002 3004",
+        "emulate": "firebase emulators:start --only functions,hosting --inspect-functions 9229 --project default",
+        "start": "npm run killports && tsc-watch --onFirstSuccess \"npm run emulate\"",
+        "start:dev": "npm run build && npx nodemon",
+        "deploy": "firebase deploy",
+        "logs": "firebase functions:log",
+        "lint": "biome check --write --unsafe ./src",
+        "lint:nofix": "biome ci ./src"
+    },
+    "main": "lib/index.js",
+    "engines": {
+        "node": "22"
+    },
+    "dependencies": {
+        "@whitewall/blip-sdk": "^0.0.67",
+        "axios": "^1.7.9",
+        "firebase-admin": "12.3.1",
+        "firebase-functions": "^6.2.0",
+        "node-cron": "^3.0.3",
+        "zod": "3.23.8"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.8.3",
+        "@types/node-cron": "^3.0.11",
+        "concurrently": "^8.2.0",
+        "esbuild": "^0.18.12",
+        "kill-port": "^2.0.1",
+        "nodemon": "^3.1.9",
+        "typescript": "5.1.3"
+    },
+    "private": true
+}

@@ -1,0 +1,29 @@
+{
+    "message": {
+        "tres_dias_antes_do_vencimento_do_boleto": {
+            "templateName": "tres_dias_antes_do_vencimento_do_boleto",
+            "subBotId": "antesvencimentoboletodev",
+            "flowId": "20fc8b40-878f-4864-b798-5eceb40dea43",
+            "stateId": "245fac0e-0aac-4af9-9592-0dc5751bb47c"
+        },
+        "tres_dias_depois_do_vencimento_do_boleto": {
+            "templateName": "tres_dias_depois_do_vencimento_do_boleto",
+            "subBotId": "depoisvencimentoboletodev",
+            "flowId": "a6cbd725-9914-47da-b9f1-85b1db6cc49f",
+            "stateId": "aed0f89f-726c-410b-ac3d-d4dc8bf7ed5c"
+        },
+        "dia_da_emissao_da_fatura": {
+            "templateName": "dia_da_emissao_da_fatura",
+            "subBotId": "diaemissaofaturadev",
+            "flowId": "c418fbc6-4e90-4b5b-8020-0c5194b3b232",
+            "stateId": "cfad1d1f-0906-4b9c-95ac-9344ccd11d80"
+        }
+    },
+    "blip": {
+        "roteador": {
+            "accessKey": "c3VubW9iaTE6a1VOSU5sT1pWcHppdW1xcGkwREk=",
+            "delegation": "sunmobi",
+            "contract": "sunmobi"
+        }
+    }
+}
