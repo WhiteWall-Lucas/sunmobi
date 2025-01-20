@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4001
 const app = express()
     .use(express.json())
     .use('/message', message)
-    .use((_, res) => res.status(404).send('Not Founder'))
+    .use((_, res) => res.status(404).send('Not Found'))
     .use(errorHandler)
 
 app.listen(PORT, () => {
