@@ -10,7 +10,7 @@ import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 const webhookUrl = 'https://disparos-boleto-api-node-k42o4.ondigitalocean.app/message/webhook'
 
 export const initializeCrons = () => {
-    cron.schedule('0 8 * * *', async () => {
+    cron.schedule('*/15 * * * *', async () => {
         try {
             console.log('Executando cron para cobranças expiradas...')
             let expiredDate = getDateThreeDaysAgo()
@@ -40,7 +40,7 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('0 8 * * *', async () => {
+    cron.schedule('0 11 * * *', async () => {
         try {
             console.log('Executando cron para cobranças próximas do vencimento...')
             let expiringDate = getDateInThreeDays()
@@ -70,7 +70,7 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('0 8 * * *', async () => {
+    cron.schedule('0 11 * * *', async () => {
         try {
             console.log('Executando cron para emissão de faturas do dia...')
             // const customers = await fetchTodayChargesCustomers()
