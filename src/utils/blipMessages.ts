@@ -5,6 +5,7 @@ import { HttpError } from './route/error'
 const templateFound = async (templateName: string, templates: Array<any>) => {
     const regex = /(\{{)\d(\}})/g
     const output = []
+
     const templateFound = templates?.find((template) => template?.name === templateName)?.components
 
     if (templateFound?.some((template: any) => template?.format === 'IMAGE')) output.push('IMAGE')
@@ -15,6 +16,7 @@ const templateFound = async (templateName: string, templates: Array<any>) => {
 
         if (text.match(regex)) text.match(regex).forEach(() => output.push('TEXT'))
     }
+    if (templateFound?.some((template: any) => template?.type === 'BUTTONS')) output.push('BUTTONS')
 
     return output
 }
@@ -65,6 +67,17 @@ const TEMPLATES: any = {
                   ]
                 : var1.map((text: string) => ({ text, type: 'text' })),
     }),
+    BUTTONS: (var1: string) => ({
+        type: 'button',
+        sub_type: 'url',
+        index: 0,
+        parameters: [
+            {
+                text: var1,
+                type: 'text',
+            },
+        ],
+    }),
 }
 
 const validaImageVideoOrDocument = (str: string) => {
@@ -89,10 +102,16 @@ export const formatComponents = async (templateName: string, vars: any, template
     const templatesFilter = await templateFound(templateName, templates)
 
     vars = vars.map((v: string) => v?.replace('amp;', '')).filter((v: any) => v)
+    const buttonVar = vars[vars.length - 1] // variável do botão está sendo a última a ser passada
+    vars = vars.slice(0, -1) // pegando as variáveis exceto a do botão
 
     if (vars?.length > 0) {
         components = templatesFilter
             ?.map((template, _i) => {
+                if (template === 'BUTTONS') {
+                    return TEMPLATES[template](buttonVar)
+                }
+
                 if (template !== 'TEXT') {
                     const varOther = vars.find((v: string) => validaImageVideoOrDocument(v))
 
@@ -104,6 +123,7 @@ export const formatComponents = async (templateName: string, vars: any, template
 
                     return TEMPLATES[template](varsText)
                 }
+
                 return
             })
             ?.filter((t, index, array) => t && array.findIndex((t2) => t2.type === t.type) === index)

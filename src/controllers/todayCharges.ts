@@ -39,11 +39,12 @@ export const fetchTodayChargesLogic = async (): Promise<FilteredCustomer[]> => {
             totalRecords = Number(response.headers.total || 0)
             const charges = response.data.charges
 
-            const customerIds = charges.map((charge) => charge.customer.id)
+            for (const charge of charges) {
+                const { id: customerId } = charge.customer
+                const { typeable_barcode, token_transaction } = charge.last_transaction.gateway_response_fields
 
-            for (const id of customerIds) {
                 try {
-                    const customerResponse = await api.get<{ customer: Customer }>(`/customers/${id}`, {
+                    const customerResponse = await api.get<{ customer: Customer }>(`/customers/${customerId}`, {
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization:
@@ -56,17 +57,19 @@ export const fetchTodayChargesLogic = async (): Promise<FilteredCustomer[]> => {
 
                     filteredCustomers.push({
                         name: customer.name,
+                        token_transaction,
+                        typeable_barcode,
                         phoneNumber: mobilePhone ? mobilePhone.number : null,
                         template: message.dia_da_emissao_da_fatura.templateName,
                     })
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         console.error(
-                            `Erro de Axios ao buscar dados para o cliente ${id}:`,
+                            `Erro de Axios ao buscar dados para o cliente ${customerId}:`,
                             error.response?.data || error.message,
                         )
                     } else {
-                        console.error(`Erro inesperado ao buscar dados para o cliente ${id}:`, error)
+                        console.error(`Erro inesperado ao buscar dados para o cliente ${customerId}:`, error)
                     }
                 }
             }
