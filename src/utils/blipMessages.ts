@@ -99,11 +99,15 @@ const validaImageVideoOrDocument = (str: string) => {
 
 export const formatComponents = async (templateName: string, vars: any, templates: any) => {
     let components = []
+    let buttonVar = ''
     const templatesFilter = await templateFound(templateName, templates)
 
     vars = vars.map((v: string) => v?.replace('amp;', '')).filter((v: any) => v)
-    const buttonVar = vars[vars.length - 1] // variável do botão está sendo a última a ser passada
-    vars = vars.slice(0, -1) // pegando as variáveis exceto a do botão
+
+    if (templatesFilter.includes('BUTTONS')) {
+        buttonVar = vars[vars.length - 1] // variável do botão está sendo a última a ser passada
+        vars = vars.slice(0, -1) // pegando as variáveis exceto a do botão
+    }
 
     if (vars?.length > 0) {
         components = templatesFilter

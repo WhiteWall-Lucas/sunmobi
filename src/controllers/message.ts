@@ -26,17 +26,17 @@ export default Router()
             stateId: '',
         }
 
-        if (template === 'tres_dias_antes_do_vencimento_do_boleto_disparo') {
+        if (template === 'tres_dias_antes_vencimento_disparo') {
             info.subBotId = message.tres_dias_antes_do_vencimento_do_boleto.subBotId
             info.flowId = message.tres_dias_antes_do_vencimento_do_boleto.flowId
             info.stateId = message.tres_dias_antes_do_vencimento_do_boleto.stateId
         }
-        if (template === 'tres_dias_depois_do_vencimento_do_boleto_disparo') {
+        if (template === 'tres_dias_depois_vencimento_disparo') {
             info.subBotId = message.tres_dias_depois_do_vencimento_do_boleto.subBotId
             info.flowId = message.tres_dias_depois_do_vencimento_do_boleto.flowId
             info.stateId = message.tres_dias_depois_do_vencimento_do_boleto.stateId
         }
-        if (template === 'dia_da_emissao_da_fatura_disparo') {
+        if (template === 'dia_emissao_fatura_disparo') {
             info.subBotId = message.dia_da_emissao_da_fatura.subBotId
             info.flowId = message.dia_da_emissao_da_fatura.flowId
             info.stateId = message.dia_da_emissao_da_fatura.stateId

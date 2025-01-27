@@ -3,95 +3,123 @@ import axios from 'axios'
 // import { fetchExpiredChargesLogic } from '../controller/expiredCharges'
 // import { fetchExpiringChargesLogic } from '../controller/expiringCharges'
 // import { fetchTodayChargesCustomers } from '../services/fetchTodayChargesCustomers'
-import { getDateThreeDaysAgo } from '../utils/getDateThreeDaysAgo'
-import { formatDateToDDMMYYYY } from '../utils/formatDateToDDMMYYYY'
-import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 import type { FilteredCustomer } from '../controllers/types/FilteredCustomers'
+import { message } from '../config.json'
 
 const webhookUrl = 'https://disparos-boleto-api-node-k42o4.ondigitalocean.app/message/webhook'
+//const webhookUrl = 'http://localhost:8080/message/webhook'
 
 export const initializeCrons = () => {
     cron.schedule('0 12 * * *', async () => {
         try {
             console.log('Executando cron para cobranças expiradas...')
-            let expiredDate = getDateThreeDaysAgo()
-            expiredDate = formatDateToDDMMYYYY(expiredDate)
             // const customers = await fetchExpiredChargesCustomers()
             const customers: FilteredCustomer[] = [
                 {
                     name: 'Lucas',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91', // TO DO: formatar dado vindo da API
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5517991730681',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Alexandra',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511991783907',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Eloise',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511912384271',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Felipe',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511981699221',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Flávio',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511981475448',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Nicholas',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511961844070',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Beatriz',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511984284860',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Andreza',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511982660633',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
                 {
                     name: 'Guilherme',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$1250,91',
+                    due_at: '24/01/2025',
+                    token_transaction: '433e2b0dc07b0daa17ee533972438b6e',
+                    typeable_barcode: '34191090655567076293385334580009799710000125091',
                     phoneNumber: '5511995729819',
-                    template: 'tres_dias_depois_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_depois_vencimento_disparo',
                 },
             ]
             for (const customer of customers) {
-                const postBody = {
+                // dispara template da mensagem de vencimento
+                let postBody = {
                     phoneNumber: customer.phoneNumber,
                     template: customer.template,
-                    variables: [customer.name, expiredDate, customer.typeable_barcode, customer.token_transaction], // a última variável sempre deve ser o token da url do botão
+                    variables: [customer.name, customer.due_at, customer.amount, customer.token_transaction], // a última variável sempre deve ser o token da url do botão
                 }
 
                 await axios.post(webhookUrl, postBody, {
                     headers: { 'Content-Type': 'application/json' },
                 })
+
+                // dispara mensagem contendo código do boleto
+                postBody = {
+                    phoneNumber: customer.phoneNumber,
+                    template: message.codigo_boleto_sun_mobi.templateName,
+                    variables: [customer.typeable_barcode],
+                }
+
+                await axios.post(webhookUrl, postBody, {
+                    headers: { 'Content-Type': 'application/json' },
+                })
+
                 console.log(`Webhook enviado para: ${customer.phoneNumber}`)
             }
         } catch (error) {
@@ -102,84 +130,112 @@ export const initializeCrons = () => {
     cron.schedule('30 12 * * *', async () => {
         try {
             console.log('Executando cron para cobranças próximas do vencimento...')
-            let expiringDate = getDateInThreeDays()
-            expiringDate = formatDateToDDMMYYYY(expiringDate)
             // const customers = await fetchExpiringChargesCustomers()
             const customers: FilteredCustomer[] = [
                 {
                     name: 'Lucas',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5517991730681',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Alexandra',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511991783907',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Eloise',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511912384271',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Felipe',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511981699221',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Flávio',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511981475448',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Nicholas',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511961844070',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Beatriz',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511984284860',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Andreza',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511982660633',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
                 {
                     name: 'Guilherme',
-                    token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
-                    typeable_barcode: '34191099823492696293685334580009899770000139438',
+                    amount: 'R$980,06',
+                    due_at: '31/01/2025',
+                    token_transaction: 'd02ca7b17ebddfd549926ecb83fa7a7e',
+                    typeable_barcode: '34191091070108332293185334580009999780000098006',
                     phoneNumber: '5511995729819',
-                    template: 'tres_dias_antes_do_vencimento_do_boleto_disparo',
+                    template: 'tres_dias_antes_vencimento_disparo',
                 },
             ]
             for (const customer of customers) {
-                const postBody = {
+                let postBody = {
                     phoneNumber: customer.phoneNumber,
                     template: customer.template,
-                    variables: [customer.name, expiringDate, customer.typeable_barcode, customer.token_transaction], // a última variável sempre deve ser o token da url do botão
+                    variables: [customer.name, customer.due_at, customer.amount, customer.token_transaction], // a última variável sempre deve ser o token da url do botão
                 }
 
                 await axios.post(webhookUrl, postBody, {
                     headers: { 'Content-Type': 'application/json' },
                 })
+
+                // dispara mensagem contendo código do boleto
+                postBody = {
+                    phoneNumber: customer.phoneNumber,
+                    template: message.codigo_boleto_sun_mobi.templateName,
+                    variables: [customer.typeable_barcode],
+                }
+
+                await axios.post(webhookUrl, postBody, {
+                    headers: { 'Content-Type': 'application/json' },
+                })
+
                 console.log(`Webhook enviado para: ${customer.phoneNumber}`)
             }
         } catch (error) {
@@ -194,78 +250,108 @@ export const initializeCrons = () => {
             const customers: FilteredCustomer[] = [
                 {
                     name: 'Lucas',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5517991730681',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Alexandra',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511991783907',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Eloise',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511912384271',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Felipe',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511981699221',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Flávio',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511981475448',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Nicholas',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511961844070',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Beatriz',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511984284860',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Andreza',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511982660633',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
                 {
                     name: 'Guilherme',
+                    amount: '1937.25',
+                    due_at: '31/01/2025',
                     token_transaction: '6bce76938eb4efdf42334b38a5f0ebfc',
                     typeable_barcode: '34191099823492696293685334580009899770000139438',
                     phoneNumber: '5511995729819',
-                    template: 'dia_da_emissao_da_fatura_disparo',
+                    template: 'dia_emissao_fatura_disparo',
                 },
             ]
             for (const customer of customers) {
-                const postBody = {
+                let postBody = {
                     phoneNumber: customer.phoneNumber,
                     template: customer.template,
-                    variables: [customer.name, customer.typeable_barcode, customer.token_transaction], // a última variável sempre deve ser o token da url do botão],
+                    variables: [customer.name, customer.amount, customer.due_at, customer.token_transaction], // a última variável sempre deve ser o token da url do botão],
                 }
 
                 await axios.post(webhookUrl, postBody, {
                     headers: { 'Content-Type': 'application/json' },
                 })
+
+                // dispara mensagem contendo código do boleto
+                postBody = {
+                    phoneNumber: customer.phoneNumber,
+                    template: message.codigo_boleto_sun_mobi.templateName,
+                    variables: [customer.typeable_barcode],
+                }
+
+                await axios.post(webhookUrl, postBody, {
+                    headers: { 'Content-Type': 'application/json' },
+                })
+
                 console.log(`Webhook enviado para: ${customer.phoneNumber}`)
             }
         } catch (error) {

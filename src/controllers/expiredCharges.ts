@@ -41,7 +41,11 @@ export const fetchExpiredChargesLogic = async (): Promise<FilteredCustomer[]> =>
 
             for (const charge of charges) {
                 const { id: customerId } = charge.customer
-                const { typeable_barcode, token_transaction } = charge.last_transaction.gateway_response_fields
+                const gatewayResponseFields = charge.last_transaction?.gateway_response_fields || {}
+                const { typeable_barcode, token_transaction } = gatewayResponseFields
+                const amount = charge.last_transaction?.amount
+                const { due_at } = charge
+                const { id: paymentMethodId, public_name } = charge.payment_method
 
                 try {
                     const customerResponse = await api.get<{ customer: Customer }>(`/customers/${customerId}`, {
@@ -55,13 +59,17 @@ export const fetchExpiredChargesLogic = async (): Promise<FilteredCustomer[]> =>
                     const customer = customerResponse.data.customer
                     const mobilePhone = customer.phones.find((phone) => phone.phone_type === 'mobile')
 
-                    filteredCustomers.push({
-                        name: customer.name,
-                        token_transaction,
-                        typeable_barcode,
-                        phoneNumber: mobilePhone ? mobilePhone.number : null,
-                        template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
-                    })
+                    if ((paymentMethodId === 49489 || public_name === 'Boleto bancário') && mobilePhone !== undefined) {
+                        filteredCustomers.push({
+                            name: customer.name,
+                            amount,
+                            due_at,
+                            token_transaction,
+                            typeable_barcode,
+                            phoneNumber: mobilePhone.number,
+                            template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                        })
+                    }
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         console.error(
