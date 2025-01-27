@@ -67,7 +67,7 @@ export const fetchTodayChargesLogic = async (): Promise<FilteredCustomer[]> => {
                             token_transaction,
                             typeable_barcode,
                             phoneNumber: mobilePhone.number,
-                            template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                            template: message.dia_da_emissao_da_fatura.templateName,
                         })
                     }
                 } catch (error) {

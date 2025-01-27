@@ -67,7 +67,7 @@ export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> =
                             token_transaction,
                             typeable_barcode,
                             phoneNumber: mobilePhone.number,
-                            template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                            template: message.tres_dias_antes_do_vencimento_do_boleto.templateName,
                         })
                     }
                 } catch (error) {
