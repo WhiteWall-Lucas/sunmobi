@@ -36,7 +36,7 @@ export default Router()
             info.flowId = message.tres_dias_depois_do_vencimento_do_boleto.flowId
             info.stateId = message.tres_dias_depois_do_vencimento_do_boleto.stateId
         }
-        if (template === 'dia_emissao_fatura_disparo') {
+        if (template === 'emissao_fatura_disparo') {
             info.subBotId = message.dia_da_emissao_da_fatura.subBotId
             info.flowId = message.dia_da_emissao_da_fatura.flowId
             info.stateId = message.dia_da_emissao_da_fatura.stateId

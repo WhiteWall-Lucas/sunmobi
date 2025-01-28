@@ -13,7 +13,7 @@
             "stateId": "aed0f89f-726c-410b-ac3d-d4dc8bf7ed5c"
         },
         "dia_da_emissao_da_fatura": {
-            "templateName": "dia_emissao_fatura_disparo",
+            "templateName": "emissao_fatura_disparo",
             "subBotId": "diaemissaofaturadev",
             "flowId": "c418fbc6-4e90-4b5b-8020-0c5194b3b232",
             "stateId": "cfad1d1f-0906-4b9c-95ac-9344ccd11d80"
