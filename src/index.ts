@@ -1,7 +1,7 @@
 import express from 'express'
 import { errorHandler } from './middlewares/error'
 import message from './controllers/message'
-// import { initializeCrons } from './crons'
+import { initializeCrons } from './crons'
 import expiredCharges from './controllers/expiredCharges'
 import expiringCharges from './controllers/expiringCharges'
 import todayCharges from './controllers/todayCharges'
@@ -22,4 +22,4 @@ app.listen(PORT, () => {
     console.log(`Server está funcionando na porta ${PORT}`)
 })
 
-// initializeCrons()
+initializeCrons()
