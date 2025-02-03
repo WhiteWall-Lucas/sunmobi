@@ -6,6 +6,7 @@ import type { Customer } from './types/Customer'
 import { message } from '../config.json'
 import axios from 'axios'
 import { getDateInThreeDays } from '../utils/getDateInThreeDays'
+import { formatarDataISO } from '../utils/formatDateToDDMMYYYY'
 
 export default Router().get('/', async (_req, res) => {
     try {
@@ -62,8 +63,13 @@ export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> =
                     if ((paymentMethodId === 49489 || public_name === 'Boleto bancário') && mobilePhone !== undefined) {
                         filteredCustomers.push({
                             name: customer.name,
-                            amount,
-                            due_at,
+                            amount:
+                                amount &&
+                                Number.parseFloat(amount).toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                }),
+                            due_at: formatarDataISO(due_at),
                             token_transaction,
                             typeable_barcode,
                             phoneNumber: mobilePhone.number,
