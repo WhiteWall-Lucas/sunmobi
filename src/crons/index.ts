@@ -6,11 +6,13 @@ import { fetchExpiringChargesLogic } from '../controllers/expiringCharges'
 import { fetchTodayChargesLogic } from '../controllers/todayCharges'
 
 const webhookUrl = 'https://disparos-boleto-api-node-k42o4.ondigitalocean.app/message/webhook'
+// const webhookUrl = 'http://localhost:8080/message/webhook'
 
 export const initializeCrons = () => {
-    cron.schedule('0 12 * * *', async () => {
+    cron.schedule('0 13 * * *', async () => {
         try {
             console.log('Executando cron para cobranças expiradas...')
+
             const customers = await fetchExpiredChargesLogic()
 
             for (const customer of customers) {
@@ -43,9 +45,10 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('0 12 * * *', async () => {
+    cron.schedule('0 13 * * *', async () => {
         try {
             console.log('Executando cron para cobranças próximas do vencimento...')
+
             const customers = await fetchExpiringChargesLogic()
 
             for (const customer of customers) {
@@ -77,9 +80,10 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('0 12 * * *', async () => {
+    cron.schedule('0 20 * * *', async () => {
         try {
             console.log('Executando cron para emissão de faturas do dia...')
+
             const customers = await fetchTodayChargesLogic()
 
             for (const customer of customers) {
