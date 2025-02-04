@@ -4,9 +4,11 @@ import api from '../api'
 import { getDateThreeDaysAgo } from '../utils/getDateThreeDaysAgo'
 import type { FilteredCustomer } from './types/FilteredCustomers'
 import type { Customer } from './types/Customer'
-import { message } from '../config.json'
+import { message, blip } from '../config.json'
 import axios from 'axios'
 import { formatarDataISO } from '../utils/formatDateToDDMMYYYY'
+import BlipClient from '../utils/blip'
+import type { Item } from './types/Item'
 
 export default Router().get('/', async (_req, res) => {
     try {
@@ -22,6 +24,7 @@ export const fetchExpiredChargesLogic = async (): Promise<FilteredCustomer[]> =>
     const perPage = 50
     let page = 1
     const filteredCustomers: FilteredCustomer[] = []
+    const blipClient = new BlipClient(blip.roteador.accessKey, blip.roteador.contract)
 
     try {
         let totalRecords = 0
@@ -61,20 +64,34 @@ export const fetchExpiredChargesLogic = async (): Promise<FilteredCustomer[]> =>
                     const mobilePhone = customer.phones.find((phone) => phone.phone_type === 'mobile')
 
                     if ((paymentMethodId === 49489 || public_name === 'Boleto bancário') && mobilePhone !== undefined) {
-                        filteredCustomers.push({
-                            name: customer.name,
-                            amount:
-                                amount &&
-                                Number.parseFloat(amount).toLocaleString('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL',
-                                }),
-                            due_at: formatarDataISO(due_at),
-                            token_transaction,
-                            typeable_barcode,
-                            phoneNumber: mobilePhone.number,
-                            template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                        const history = await blipClient.sendCommand({
+                            method: 'get',
+                            uri: `/threads/${mobilePhone?.number}@wa.gw.msging.net?refreshExpiredMedia=true&take=50`,
                         })
+
+                        const hasSpecificTemplate = history.items.some(
+                            (item: Item) =>
+                                item.content?.type === 'template' &&
+                                item.content.template?.name ===
+                                    message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                        )
+
+                        if (!hasSpecificTemplate) {
+                            filteredCustomers.push({
+                                name: customer.name,
+                                amount:
+                                    amount &&
+                                    Number.parseFloat(amount).toLocaleString('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL',
+                                    }),
+                                due_at: formatarDataISO(due_at),
+                                token_transaction,
+                                typeable_barcode,
+                                phoneNumber: mobilePhone.number,
+                                template: message.tres_dias_depois_do_vencimento_do_boleto.templateName,
+                            })
+                        }
                     }
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
