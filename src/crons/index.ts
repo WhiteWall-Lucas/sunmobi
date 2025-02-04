@@ -80,7 +80,7 @@ export const initializeCrons = () => {
         }
     })
 
-    cron.schedule('0 20 * * *', async () => {
+    cron.schedule('0 13 * * *', async () => {
         try {
             console.log('Executando cron para emissão de faturas do dia...')
 
