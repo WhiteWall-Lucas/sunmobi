@@ -1,6 +1,6 @@
 import cron from 'node-cron'
 import axios from 'axios'
-import { message } from '../config.json'
+import { message, clientApi } from '../config.json'
 import { fetchExpiredChargesLogic } from '../controllers/expiredCharges'
 import { fetchExpiringChargesLogic } from '../controllers/expiringCharges'
 import { fetchTodayChargesLogic } from '../controllers/todayCharges'
@@ -12,7 +12,10 @@ export const initializeCrons = () => {
         try {
             console.log('10h Executando cron para cobranças expiradas...')
 
-            const customers = await fetchExpiredChargesLogic()
+            const customers1 = await fetchExpiredChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchExpiredChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 // dispara template da mensagem de vencimento
@@ -48,7 +51,10 @@ export const initializeCrons = () => {
         try {
             console.log('17h Executando cron para cobranças expiradas...')
 
-            const customers = await fetchExpiredChargesLogic()
+            const customers1 = await fetchExpiredChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchExpiredChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 // dispara template da mensagem de vencimento
@@ -84,7 +90,10 @@ export const initializeCrons = () => {
         try {
             console.log('10h Executando cron para cobranças próximas do vencimento...')
 
-            const customers = await fetchExpiringChargesLogic()
+            const customers1 = await fetchExpiringChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchExpiringChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 let postBody = {
@@ -119,7 +128,10 @@ export const initializeCrons = () => {
         try {
             console.log('17h Executando cron para cobranças próximas do vencimento...')
 
-            const customers = await fetchExpiringChargesLogic()
+            const customers1 = await fetchExpiringChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchExpiringChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 let postBody = {
@@ -154,7 +166,10 @@ export const initializeCrons = () => {
         try {
             console.log('10h Executando cron para emissão de faturas do dia...')
 
-            const customers = await fetchTodayChargesLogic()
+            const customers1 = await fetchTodayChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchTodayChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 let postBody = {
@@ -189,7 +204,10 @@ export const initializeCrons = () => {
         try {
             console.log('17h Executando cron para emissão de faturas do dia...')
 
-            const customers = await fetchTodayChargesLogic()
+            const customers1 = await fetchTodayChargesLogic(clientApi.authorization1)
+            const customers2 = await fetchTodayChargesLogic(clientApi.authorization2)
+
+            const customers = [...customers1, ...customers2]
 
             for (const customer of customers) {
                 let postBody = {

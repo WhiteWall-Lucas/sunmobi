@@ -3,7 +3,7 @@ import type { Charge } from './types/Charge'
 import api from '../api'
 import type { FilteredCustomer } from './types/FilteredCustomers'
 import type { Customer } from './types/Customer'
-import { message, blip } from '../config.json'
+import { message, blip, clientApi } from '../config.json'
 import axios from 'axios'
 import { getDateInThreeDays } from '../utils/getDateInThreeDays'
 import { formatarDataISO } from '../utils/formatDateToDDMMYYYY'
@@ -12,14 +12,18 @@ import type { Item } from './types/Item'
 
 export default Router().get('/', async (_req, res) => {
     try {
-        const customers = await fetchExpiringChargesLogic()
+        const customers1 = await fetchExpiringChargesLogic(clientApi.authorization1)
+        const customers2 = await fetchExpiringChargesLogic(clientApi.authorization2)
+
+        const customers = [...customers1, ...customers2]
+
         res.status(200).json(customers)
     } catch (error) {
         res.status(500).json({ error: (error as Error).message })
     }
 })
 
-export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> => {
+export const fetchExpiringChargesLogic = async (authorization: string): Promise<FilteredCustomer[]> => {
     const expiringDate = getDateInThreeDays()
     const perPage = 50
     let page = 1
@@ -36,7 +40,7 @@ export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> =
             const response = await api.get<{ charges: Charge[] }>(`/charges?${query}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Basic NVdBUGpWYXlKR0Ftc1M0ZnlvMUhaZ3pLMkNnNGZiRXd5RFlHeWpEMnA3NDp1bmRlZmluZWQ=',
+                    Authorization: authorization,
                 },
             })
 
@@ -55,8 +59,7 @@ export const fetchExpiringChargesLogic = async (): Promise<FilteredCustomer[]> =
                     const customerResponse = await api.get<{ customer: Customer }>(`/customers/${customerId}`, {
                         headers: {
                             'Content-Type': 'application/json',
-                            Authorization:
-                                'Basic NVdBUGpWYXlKR0Ftc1M0ZnlvMUhaZ3pLMkNnNGZiRXd5RFlHeWpEMnA3NDp1bmRlZmluZWQ=',
+                            Authorization: authorization,
                         },
                     })
 

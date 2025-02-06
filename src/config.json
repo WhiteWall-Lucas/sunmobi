@@ -31,5 +31,9 @@
             "delegation": "sunmobi",
             "contract": "sunmobi"
         }
+    },
+    "clientApi": {
+        "authorization1": "Basic NVdBUGpWYXlKR0Ftc1M0ZnlvMUhaZ3pLMkNnNGZiRXd5RFlHeWpEMnA3NDp1bmRlZmluZWQ=",
+        "authorization2": "Basic cmMtdk1xc3llRVgzTWZacmxkakhmWGYzNU4tbTVuWFJaMlh3WGtDR1l3WTp1bmRlZmluZWQ="
     }
 }
